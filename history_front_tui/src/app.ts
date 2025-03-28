@@ -41,12 +41,18 @@ form?.addEventListener('submit', async (e) => {
     formData.append('csvFile', file); // @RequestParam 이름도 csvFile로 하면 될듯
 
     // ajax - fetch api
-    const response = await fetch('/api/admin/unit-upload', {
+    const response = await fetch('http://localhost:8080/api/admin/upload/unit', {
       method: 'POST',
       body: formData,
     });
 
-    showFeedback('업로드 성공!', 'text-green-500');
+    if (response.ok) {
+      showFeedback('업로드 성공!', 'text-green-500');
+    } else {
+      const errorText = await response.text();
+      showFeedback(`업로드 실패: ${errorText}`, 'text-red-500');
+    }
+
   } catch (error) {
     showFeedback('업로드 중 오류 발생: ' + error.message, 'text-red-500');
   }
