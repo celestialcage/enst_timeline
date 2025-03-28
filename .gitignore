@@ -1,0 +1,40 @@
+# ===== Global =====
+.DS_Store
+Thumbs.db
+*.log
+*.tmp
+*.swp
+*.bak
+
+# ===== Node (frontend - 사용자용 React) =====
+history_front_react/node_modules/
+history_front_react/dist/
+history_front_react/.env
+history_front_react/.vite/
+history_front_react/.cache/
+
+# ===== Node (frontend - 관리자용 TS) =====
+history_front_tui/node_modules/
+history_front_tui/dist/
+history_front_tui/.env
+history_front_tui/.vite/
+history_front_tui/.cache/
+
+# ===== Java/Spring (backend) =====
+ensthistory-app/target/
+ensthistory-app/.classpath
+ensthistory-app/.project
+ensthistory-app/.settings/
+ensthistory-app/.env
+ensthistory-app/*.iml
+# Spring Boot secret config
+ensthistory-app/src/main/resources/application.properties
+
+# ===== IntelliJ IDEA =====
+*.iml
+.idea/
+*.ipr
+*.iws
+
+# ===== VSCode =====
+.vscode/
