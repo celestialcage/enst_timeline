@@ -1,4 +1,4 @@
-package com.shabet.ensthistory.domain.member;
+package com.shabet.ensthistory.member.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

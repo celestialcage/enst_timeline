@@ -1,5 +1,6 @@
 package com.shabet.ensthistory.api.admin.upload;
 
+import com.shabet.ensthistory.service.csvupload.CharacterCsvUploadService;
 import com.shabet.ensthistory.service.csvupload.UnitCsvUploadService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,40 +16,32 @@ public class CsvUploadController {
 
     // final 키워드로 불변성 보장
     private final UnitCsvUploadService unitCsvUploadService;
+    private final CharacterCsvUploadService characterCsvUploadService;
 
     // 생성자 주입. autowired 안 써도 스프링이 주입해줌.
     // autowired는 현업에서 잘 안 쓴다고 한다.
     // Lombok으로 대체 가능(선언에 @RequiredArgsConstructor 쓰고 거기에 final 붙인 필드 있으면 걔만 자동 주입.)
     // 단위테스트에서 명시적으로 주입 가능, 순환 참조(의존) 감지가 컴파일 타임에 감지됨.
-    public CsvUploadController(UnitCsvUploadService unitCsvUploadService) {
+    public CsvUploadController(UnitCsvUploadService unitCsvUploadService, CharacterCsvUploadService characterCsvUploadService) {
         this.unitCsvUploadService = unitCsvUploadService;
+        this.characterCsvUploadService = characterCsvUploadService;
     }
 
     @PostMapping("/unit")
     public ResponseEntity<String> uploadUnitCsv(@RequestParam("csvFile")MultipartFile file) {
         try {
             unitCsvUploadService.uploadFromCsv(file); // 전체 트랜잭션 처리
-//            // 데이터 행 파싱
-//            while ((line = reader.readLine()) != null) {
-//                String[] tokens = line.split(",", -1); // 빈 칸도 유지
-//
-//                UnitCsvDto dto = new UnitCsvDto();
-//                dto.setUnitName(tokens[headerMap.get("unit_name")]);
-//                dto.setUnitAbbr(tokens[headerMap.get("unit_abbr")]);
-//                dto.setUnitType(tokens[headerMap.get("unit_type")]);
-//                dto.setUnitOrder(Integer.parseInt(tokens[headerMap.get("unit_order")]));
-//                dto.setUnitAgency(tokens[headerMap.get("unit_agency")]);
-//                dto.setUnitKorName(tokens[headerMap.get("unit_kor_name")]);
-//                dto.setUnitEnSearch(tokens[headerMap.get("unit_en_search")]);
-//                if (headerMap.containsKey("unit_jp_search")) { // 없을 수도 있는 거
-//                    dto.setUnitJpSearch(tokens[headerMap.get("unit_jp_search")]);
-//                }
-//                dto.setUnitKorSearch(tokens[headerMap.get("unit_kor_search")]);
-//
-//                Unit unit = new Unit(dto);
-//                unitRepository.save(unit);
-//            }
+            return ResponseEntity.ok("업로드 성공~");
 
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body("업로드 실패... " + e.getMessage());
+        }
+    }
+    @PostMapping("/character")
+    public ResponseEntity<String> uploadCharacterCsv(@RequestParam("csvFile")MultipartFile file) {
+        try {
+            characterCsvUploadService.uploadCharacterWithRelation(file); // 전체 트랜잭션 처리
             return ResponseEntity.ok("업로드 성공~");
 
         } catch (Exception e) {
