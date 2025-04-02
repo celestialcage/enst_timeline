@@ -37,4 +37,6 @@ public class Scout {
     @Column(name = "scout_transl_name")
     private String translName;
 
+    protected Scout() {}
+
 }

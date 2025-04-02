@@ -30,4 +30,6 @@ public class ScoutLineup {
 
     @Enumerated(EnumType.STRING)
     private CardAttr cardAttr;
+
+    protected ScoutLineup() {}
 }

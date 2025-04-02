@@ -40,4 +40,6 @@ public class Event {
 
     @Column(name = "event_transl_title", length = 100)
     private String translTitle;
+
+    protected Event() {}
 }

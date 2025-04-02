@@ -42,4 +42,6 @@ public class TurnInfo {
     @JoinColumn(name = "ch_irr_id", referencedColumnName = "ch_id")
     private ChIrregular chIrregular;
 
+    protected TurnInfo() {}
+
 }

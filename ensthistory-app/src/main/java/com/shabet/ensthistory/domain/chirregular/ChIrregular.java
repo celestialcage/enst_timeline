@@ -36,4 +36,6 @@ public class ChIrregular {
 
     @Enumerated(EnumType.STRING)
     private CardAttr mainCardAttr;
+
+    protected ChIrregular() {}
 }

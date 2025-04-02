@@ -1,20 +1,13 @@
-declare const tui: any;
+
 
 document.addEventListener("DOMContentLoaded", () => {
-  const grid = new tui.Grid({
-    el: document.getElementById("grid_list"),
-    data: [],
-    columns: [
-      { header: "턴 수", name: "turn" },
-      { header: "이벤트종류", name: "event_type" },
-      { header: "이벤트명", name: "event_name" },
-      { header: "이벤트캐", name: "event_char" },
-      { header: "배수캐(크로스)", name: "scout1_char" },
-      { header: "피쳐캐", name: "scout2_char" },
-      { header: "중뮤스카우트", name: "ch_scout_char" },
-      { header: "중뮤이벤트", name: "ch_event_char" },
-    ]
-  })
+
+  const path = window.location.pathname;
+  console.log(path);
+
+  if (path.includes('/')) {
+    import('./grid/turnGrid').then(({ initTurnGrid }) => initTurnGrid())
+  }
 });
 
 // csv 업로드

@@ -30,4 +30,6 @@ public class EventLineup {
 
     @Enumerated(EnumType.STRING)
     private CardAttr cardAttr;
+
+    protected EventLineup() {}
 }
