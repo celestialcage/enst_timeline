@@ -1,13 +1,26 @@
-
+import { grid } from './grid/turnGrid';
 
 document.addEventListener("DOMContentLoaded", () => {
 
   const path = window.location.pathname;
   console.log(path);
 
-  if (path.includes('/')) {
-    import('./grid/turnGrid').then(({ initTurnGrid }) => initTurnGrid())
-  }
+  // if (path.includes('/')) {
+  //   import('./grid/turnGrid').then(({ initTurnGrid }) => initTurnGrid())
+  // }
+  // const themeOptions = {
+  //   "cell": {
+  //     "normal": {
+  //       "border": ""
+  //     }
+  //   },
+  // }
+
+  // grid.applyThemes('default', themeOptions);
+
+  grid.appendRow();
+
+  
 });
 
 // csv 업로드
