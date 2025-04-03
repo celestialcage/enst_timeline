@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // grid.applyThemes('default', themeOptions);
 
-  grid.appendRow();
+  // grid.appendRow();
 
   
 });
@@ -49,7 +49,7 @@ form?.addEventListener('submit', async (e) => {
     formData.append('csvFile', file); // @RequestParam 이름도 csvFile로 하면 될듯
 
     // ajax - fetch api
-    const response = await fetch(`http://localhost:8080/api/admin/upload/${uploadType}`, {
+    const response = await fetch(`http://localhost:8080/api/system-admin/upload-csv/${uploadType}`, {
       method: 'POST',
       body: formData,
     });

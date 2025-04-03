@@ -1,12 +1,12 @@
 export async function fetchTurnData() {
-  const searchUrl = "http://localhost:8080/api/admin/grid";
+  const searchUrl = "http://localhost:8080/api/system-admin/grid";
 
   const data = await fetch(searchUrl, { method: 'GET' })
     .then((response) => {
       if (!response.ok) {
-        return response.json();
+        throw new Error(`status: ${response.status}`);
       } else {
-        console.log(response);
+        return response.json();
       }
     })
     .catch((error) => console.error(error));

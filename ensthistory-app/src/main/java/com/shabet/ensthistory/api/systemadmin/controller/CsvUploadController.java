@@ -1,4 +1,4 @@
-package com.shabet.ensthistory.api.admin.upload;
+package com.shabet.ensthistory.api.systemadmin.controller;
 
 import com.shabet.ensthistory.service.csvupload.CharacterCsvUploadService;
 import com.shabet.ensthistory.service.csvupload.UnitCsvUploadService;
@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController
-@RequestMapping("/api/admin/upload")
+@RequestMapping("/api/system-admin/upload-csv")
 //@CrossOrigin(origins = "http://localhost:5173") // ← Vite dev server 포트! API 하나하나에 적용 (WebConfig에서 전역설정함)
 public class CsvUploadController {
 
