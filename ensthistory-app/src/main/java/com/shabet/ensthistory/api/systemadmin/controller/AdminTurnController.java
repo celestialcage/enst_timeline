@@ -1,7 +1,10 @@
 package com.shabet.ensthistory.api.systemadmin.controller;
 
+import com.shabet.ensthistory.domain.turn.dto.IdListDto;
 import com.shabet.ensthistory.domain.turn.dto.TurnGridRequestDto;
 import com.shabet.ensthistory.domain.turn.dto.TurnGridResponseDto;
+import com.shabet.ensthistory.service.turninfo.TurnInfoService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -11,16 +14,27 @@ import java.util.List;
 @RequestMapping("/api/system-admin/turns")
 public class AdminTurnController {
 
+    private final TurnInfoService turnInfoService;
+
+    public AdminTurnController(TurnInfoService turnInfoService) {
+        this.turnInfoService = turnInfoService;
+    }
+
     @GetMapping
-    public List<TurnGridResponseDto> getAllTurns() {
+    public ResponseEntity<List<TurnGridResponseDto>> getAllTurns() {
 
-        List<TurnGridResponseDto> turns = new ArrayList<TurnGridResponseDto>();
+        List<TurnGridResponseDto> turns = turnInfoService.findAllTurns();
 
-        return turns;
+        return ResponseEntity.ok(turns);
     }
 
     @PostMapping
     public void createTurn(@RequestBody TurnGridRequestDto request) {
+
+    }
+
+    @PostMapping("/list")
+    public void createTurns(@RequestBody List<TurnGridRequestDto> request) {
 
     }
 
@@ -29,8 +43,18 @@ public class AdminTurnController {
 
     }
 
+    @PatchMapping("/list")
+    public void updateTurns(@RequestBody List<TurnGridRequestDto> request) {
+
+    }
+
     @DeleteMapping("/{id}")
     public void deleteTurn(@PathVariable("id") Integer id) {
+
+    }
+
+    @DeleteMapping("/list")
+    public void deleteTurn(@RequestBody IdListDto idListDto) {
 
     }
 

@@ -1,13 +1,14 @@
 package com.shabet.ensthistory.domain.turn.dto;
 
-public class TurnRowDto {
-    private String eventChar;
+public class TurnRequestRowDto {
+    private Integer order;
+    private Integer eventCharId;
     private String eventCardAttr;
     private String eventCardProp;
-    private String tScoutChar;
+    private Integer tScoutCharId;
     private String tScoutCardAttr;
     private String tScoutCardProp;
-    private String fScoutChar;
+    private Integer fScoutCharId;
     private String fScoutCardAttr;
     private String fScoutCardProp;
 }
