@@ -104,18 +104,35 @@
 
         <!-- 컨텐츠 영역 -->
         <main class="flex-1 p-6 mt-0 bg-white shadow-md rounded-md w-full text-center">
-          <!-- 필터 조건 ui -->
-          <div id="character-filter" class="flex flex-wrap gap-2 mb-4 relative">
-            <input id="character-input"
-                  type="text"
-                  placeholder="캐릭터명 입력"
-                  class="border px-3 py-1 rounded shadow-sm focus:outline-none focus:ring w-52" />
-            
-            <ul id="character-suggestions"
-                class="absolute top-full left-0 z-10 mt-1 w-52 border rounded bg-white shadow hidden"></ul>
-          
-            <div id="selected-tags" class="flex flex-wrap gap-2 mt-2 w-full"></div>
+          <!-- 전체 필터 UI -->
+          <div id="character-filter" class="flex justify-between items-start mb-4 w-full gap-4 relative">
+
+            <!-- 왼쪽: 입력 + 태그 -->
+            <div class="flex flex-col gap-2 w-52">
+              <input id="character-input"
+                    type="text"
+                    placeholder="캐릭터명 입력"
+                    class="border px-3 py-1 rounded shadow-sm focus:outline-none focus:ring w-full" />
+
+              <ul id="character-suggestions"
+                  class="absolute top-full left-0 z-10 mt-1 w-52 border rounded bg-white shadow hidden"></ul>
+
+              <div id="selected-tags" class="flex flex-wrap gap-2"></div>
+            </div>
+
+            <!-- 오른쪽: 버튼들 -->
+            <div id="btns" class="flex items-center gap-2">
+              <button id="add-row-btn" class="bg-white border border-gray-400 text-gray-800 px-3 py-1 rounded shadow-sm hover:bg-gray-50">
+                ➕ 신규
+              </button>
+              <button id="save-btn" class="bg-white border border-gray-400 text-gray-800 px-3 py-1 rounded shadow-sm hover:bg-gray-50">
+                💾 저장
+              </button>
+            </div>
           </div>
+
+
+
           
           <!-- 그리드 -->
           <div id="grid_list"></div>

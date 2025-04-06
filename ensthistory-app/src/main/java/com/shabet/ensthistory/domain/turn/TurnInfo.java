@@ -8,6 +8,7 @@ import lombok.Getter;
 
 @Getter
 @Entity
+@Table(name = "turn")
 public class TurnInfo {
 
     @Id

@@ -1,125 +1,77 @@
 import { fetchTurnData } from "../utils/api";
 
-export const grid = new tui.Grid({
-  el: document.getElementById("grid_list"),
-  data: [],
-  columns: [
-    { header: "턴", name: "turn", width: 10 },
-    {
-      header: "년차",
-      name: "game_year",
-      width: 10,
-      // renderer: {
-      //   styles: {
-      //     backgroundColor: 'red',
-      //     borderRight: '3px solid #333',
-      //   },
-      //   // classNames: ['border-r-4', 'border-solid', 'border-gray-800']
-      // },
+let grid;
+
+export function initTurnGrid(gridOptions) {
+  const el = document.getElementById("grid_list");
+  if (!el) return;
+
+  tui.Grid.setLanguage("ko", {
+    // set new language
+    display: {
+      noData: "표시할 데이터가 없어요~~",
+      loadingData: "데이터 로딩 중",
+      resizeHandleGuide:
+        "컬럼 너비를 드래그로 조절할 수 있고, " +
+        "더블 클릭으로 너비를 초기화할 수 있어요.",
     },
-    { header: "유형", name: "event_type", width: 50 },
-    { header: "이벤트명", name: "event_name" },
-    { header: "이벤트캐", name: "event_char" },
-    { header: "속성", name: "event_card_attr", width: 15 },
-    { header: "이벤트카드속성2", name: "event_card_prop", hidden: true },
-    { header: "배수캐(크로스)", name: "tscout_char" },
-    {
-      header: "속성",
-      name: "tscout_card_attr",
-      width: 15,
-      // renderer: {
-      //   classNames: ['border-r-4', 'border-solid', 'border-gray-800']
-      // },
-    },
-    { header: "배수카드속성2", name: "tscout_card_prop", hidden: true },
-    { header: "피쳐캐(크로스)", name: "fscout_char" },
-    {
-      header: "속성",
-      name: "fscout_card_attr",
-      width: 15,
-      // renderer: {
-      //   classNames: ['border-r-4', 'border-solid', 'border-gray-800']
-      // },
-    },
-    { header: "피쳐카드속성2", name: "fscout_card_prop", hidden: true },
-    { header: "중뮤스카우트", name: "ch_scout_char" },
-    {
-      header: "속성",
-      name: "ch_scout_card_attr",
-      width: 15,
-      // renderer: {
-      //   classNames: ['border-r-4', 'border-solid', 'border-gray-800']
-      // },
-    },
-    { header: "중뮤카드속성2", name: "ch_scout_card_prop", hidden: true },
-    { header: "중뮤이벤트", name: "ch_event_char" },
-    { header: "속성", name: "ch_event_card_attr", width: 15 },
-    { header: "중뮤이벤카드속성2", name: "ch_event_card_prop", hidden: true },
-  ],
+  });
+
+  tui.Grid.applyTheme("striped");
+  grid = new tui.Grid(gridOptions);
+
+  // grid.on('focusChange', ({ rowKey, columnName }) => {
+  //   console.log("focusChange: ", rowKey, columnName);
+    
+  //   const columnLength = grid.getColumns().length;
+  //   grid.setSelectionRange({
+  //     start: [rowKey, 0],
+  //     end: [rowKey, columnLength - 1]
+  //   });
+  // });
+  
+  let lastFocusedCell: { rowKey: number | null; columnName: string | null } = {
+    rowKey: null,
+    columnName: null,
+  };
+
+  // 클릭하면 "두 번째 클릭" 조건일 때만 편집 진입
+  grid.on('click', () => {
+    const focus = grid.getFocusedCell();
+
+    if (
+      focus?.rowKey === lastFocusedCell.rowKey &&
+      focus?.columnName === lastFocusedCell.columnName
+    ) {
+      grid.startEditing(focus.rowKey, focus.columnName);
+    }
+
+    // click 내에서 바로 lastFocusedCell 갱신
+    lastFocusedCell = {
+      rowKey: focus?.rowKey ?? null,
+      columnName: focus?.columnName ?? null,
+    };
+  });
+
+  fetchTurnData().then((data) => grid.resetData(data));
+}
+
+const addBtn: HTMLButtonElement | null = document.querySelector("#add-row-btn");
+addBtn.addEventListener("click", () => {
+  const rowInitData = {};
+  const rowInitOptions = {
+    // at: index,
+    focus: false, // 그냥 신규 행 만들 때 focus 주면 되지 startEditing때 줘야하는지... 의문
+  };
+
+  grid.appendRow(rowInitData, rowInitOptions);
+
+  // 1. 전체 데이터 받아서 마지막 row 찾기
+  const lastIndex = grid.getData().length - 1;
+  const lastRow = grid.getRowAt(lastIndex); // ✅ 여기서 rowKey도 포함된 row 객체 가져옴
+
+  // 2. rowKey 추출
+  const rowKey = lastRow?.rowKey;
+  
+  grid.startEditing(rowKey, 'turn');
 });
-
-// export function initTurnGrid() {
-//   const el = document.getElementById("grid_list");
-//   if (!el) return;
-
-//   grid = new tui.Grid({
-//     el,
-//     data: [],
-//     columns: [
-//       { header: "턴", name: "turn", width: 10 },
-//       {
-//         header: "년차",
-//         name: "game_year",
-//         width: 10,
-//         renderer: {
-//           styles: {
-//             color: 'red',
-//             borderRight: '3px',
-//             // 'border-right': '3px solid #333'
-//           },
-//           classNames: ['border-r-4', 'border-solid', 'border-gray-800']
-//         },
-//       },
-//       { header: "유형", name: "event_type", width: 50 },
-//       { header: "이벤트명", name: "event_name" },
-//       { header: "이벤트캐", name: "event_char" },
-//       { header: "속성", name: "event_card_attr", width: 15 },
-//       { header: "이벤트카드속성2", name: "event_card_prop", hidden: true },
-//       { header: "배수캐(크로스)", name: "tscout_char" },
-//       {
-//         header: "속성",
-//         name: "tscout_card_attr",
-//         width: 15,
-//         renderer: {
-//           classNames: ['border-r-4', 'border-solid', 'border-gray-800']
-//         },
-//       },
-//       { header: "배수카드속성2", name: "tscout_card_prop", hidden: true },
-//       { header: "피쳐캐(크로스)", name: "fscout_char" },
-//       {
-//         header: "속성",
-//         name: "fscout_card_attr",
-//         width: 15,
-//         renderer: {
-//           classNames: ['border-r-4', 'border-solid', 'border-gray-800']
-//         },
-//       },
-//       { header: "피쳐카드속성2", name: "fscout_card_prop", hidden: true },
-//       { header: "중뮤스카우트", name: "ch_scout_char" },
-//       {
-//         header: "속성",
-//         name: "ch_scout_card_attr",
-//         width: 15,
-//         renderer: {
-//           classNames: ['border-r-4', 'border-solid', 'border-gray-800']
-//         },
-//       },
-//       { header: "중뮤카드속성2", name: "ch_scout_card_prop", hidden: true },
-//       { header: "중뮤이벤트", name: "ch_event_char" },
-//       { header: "속성", name: "ch_event_card_attr", width: 15 },
-//       { header: "중뮤이벤카드속성2", name: "ch_event_card_prop", hidden: true },
-//     ],
-//   });
-
-//   // fetchTurnData().then(data => grid.resetData(data));
-// }

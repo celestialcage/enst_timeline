@@ -1,25 +1,24 @@
-import { grid } from './grid/turnGrid';
+import { createGridOptions } from './grid/options';
+import { initTurnGrid } from './grid/turnGrid';
+import { fetchIdolList } from './utils/api';
+
+async function main() {
+  const list = await fetchIdolList();
+
+  const options = createGridOptions(list);
+  initTurnGrid(options);
+}
 
 document.addEventListener("DOMContentLoaded", () => {
 
-  const path = window.location.pathname;
-  console.log(path);
+  main();
+
+  // const path = window.location.pathname;
+  // console.log(path);
 
   // if (path.includes('/')) {
   //   import('./grid/turnGrid').then(({ initTurnGrid }) => initTurnGrid())
   // }
-  // const themeOptions = {
-  //   "cell": {
-  //     "normal": {
-  //       "border": ""
-  //     }
-  //   },
-  // }
-
-  // grid.applyThemes('default', themeOptions);
-
-  // grid.appendRow();
-
   
 });
 
