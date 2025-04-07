@@ -1,6 +1,6 @@
 import { AutoCompleteEditor } from './renderers/AutoCompleteEditor';
 
-export function createGridOptions(autoCompleteList) {
+export function createGridOptions(idolList) {
   return {
     el: document.getElementById("grid_list"),
     data: [],
@@ -70,18 +70,18 @@ export function createGridOptions(autoCompleteList) {
       {
         header: "이벤트캐",
         name: "event_char",
-        width: 70,
+        width: 80,
         renderer: {
           styles: {
             textAlign: "center",
+            color: "black",
           },
         },
+        formatter: "listItemText",
         editor: {
-          type: AutoCompleteEditor,
+          type: "select",
           options: {
-            autoCompleteEditorOptions: {
-              list: autoCompleteList,
-            }
+            listItems: idolList,
           }
         },
       },

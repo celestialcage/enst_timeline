@@ -3,7 +3,9 @@ import { initTurnGrid } from './grid/turnGrid';
 import { fetchIdolList } from './utils/api';
 
 async function main() {
-  const list = await fetchIdolList();
+  const data = await fetchIdolList();
+  const list = data.map(ele => ({ text: ele.name, value: String(ele.id) }));
+  console.log(list);
 
   const options = createGridOptions(list);
   initTurnGrid(options);
