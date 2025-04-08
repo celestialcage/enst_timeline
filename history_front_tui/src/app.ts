@@ -5,7 +5,8 @@ import { fetchIdolList } from './utils/api';
 async function main() {
   const data = await fetchIdolList();
   const list = data.map(ele => ({ text: ele.name, value: String(ele.id) }));
-  console.log(list);
+  // console.log(list);
+  list.unshift({ text: " ", value: null });
 
   const options = createGridOptions(list);
   initTurnGrid(options);

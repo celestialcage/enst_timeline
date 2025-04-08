@@ -4,13 +4,18 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="https://uicdn.toast.com/grid/latest/tui-grid.css" />
+    <!-- TOAST UI Grid의 페이지네이션 스타일을 CDN으로 불러오기 -->
+    <link rel="stylesheet" href="https://uicdn.toast.com/tui.pagination/v3.4.0/tui-pagination.css">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=League+Gothic&family=Racing+Sans+One&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=League+Gothic&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <title>enst history prototype</title>
+    <link rel="stylesheet" href="/src/styles.css">
     <style>
       @layer utilities {
           .font-montserrat {
@@ -105,28 +110,57 @@
         <!-- 컨텐츠 영역 -->
         <main class="flex-1 p-6 mt-0 bg-white shadow-md rounded-md w-full text-center">
           <!-- 전체 필터 UI -->
-          <div id="character-filter" class="flex justify-between items-start mb-4 w-full gap-4 relative">
-
+          <div id="character-filter" class="flex justify-between items-start mb-4 w-full gap-4 relative font-montserrat">
             <!-- 왼쪽: 입력 + 태그 -->
             <div class="flex flex-col gap-2 w-52">
               <input id="character-input"
                     type="text"
                     placeholder="캐릭터명 입력"
                     class="border px-3 py-1 rounded shadow-sm focus:outline-none focus:ring w-full" />
-
+  
               <ul id="character-suggestions"
                   class="absolute top-full left-0 z-10 mt-1 w-52 border rounded bg-white shadow hidden"></ul>
-
+  
               <div id="selected-tags" class="flex flex-wrap gap-2"></div>
             </div>
+            <!-- 오른쪽: 버튼들 -->
+            <div id="btns-1" class="flex items-center gap-2">
+              <button id="search-btn" class="bg-white border border-gray-400 text-gray-800 px-3 py-1 rounded shadow-sm hover:bg-gray-50 hover:cursor-pointer">
+                🔍 검색
+              </button>
+            </div>
+          </div>
+
+          <div id="buttn-select-band" class="flex justify-between items-start mb-4 w-full gap-4 relative font-montserrat">
+
+            <!-- ~~~~~~~페이지당 항목 수 설정~~~~~~~~~ -->
+            <div class="flex items-center space-x-4">
+              <label for="itemsPerPage" class="text-gray-700 font-semibold">한페이지당:</label>
+              <select id="itemsPerPage" class="bg-white border border-gray-300 rounded-lg px-4 py-2 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <option value="24" selected>24</option>
+                <option value="25">25</option>
+                <option value="49">49</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+              </select>
+            </div>
+
+            <!-- <div class="flex items-center space-x-4">
+              <label for="itemsPerPage" class="text-gray-700 font-semibold">한페이지당:</label>
+              <input id="itemsPerPage" type="number" value="24" min="1" step="1" class="bg-white border border-gray-300 rounded-lg px-4 py-2 text-gray-700 w-20 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div> -->
+            <!-- ~~~~~~~페이지당 항목 수 설정~~~~~~~~~ -->
 
             <!-- 오른쪽: 버튼들 -->
-            <div id="btns" class="flex items-center gap-2">
-              <button id="add-row-btn" class="bg-white border border-gray-400 text-gray-800 px-3 py-1 rounded shadow-sm hover:bg-gray-50">
+            <div id="btns-2" class="flex items-center gap-2">
+              <button id="add-row-btn" class="bg-white border border-gray-400 text-gray-800 px-3 py-1 rounded shadow-sm hover:bg-gray-50 hover:cursor-pointer">
                 ➕ 신규
               </button>
-              <button id="save-btn" class="bg-white border border-gray-400 text-gray-800 px-3 py-1 rounded shadow-sm hover:bg-gray-50">
+              <button id="save-btn" class="bg-white border border-gray-400 text-gray-800 px-3 py-1 rounded shadow-sm hover:bg-gray-50 hover:cursor-pointer">
                 💾 저장
+              </button>
+              <button id="delete-btn" class="bg-white border border-gray-400 text-gray-800 px-3 py-1 rounded shadow-sm hover:bg-gray-50 hover:cursor-pointer">
+                ❌ 삭제
               </button>
             </div>
           </div>
@@ -142,6 +176,7 @@
 
 
     <div id="app"></div>
+    <script type="text/javascript" src="https://uicdn.toast.com/tui.pagination/v3.4.0/tui-pagination.js"></script>
     <script src="https://uicdn.toast.com/grid/latest/tui-grid.js"></script>
     <script type="module" src="/src/app.ts"></script>
   </body>

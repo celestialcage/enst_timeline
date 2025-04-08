@@ -1,8 +1,17 @@
-import { AutoCompleteEditor } from './renderers/AutoCompleteEditor';
+import { TypeColorRenderer } from "./renderers/TypeColorRenderer";
+import { AttrColorRenderer } from "./renderers/AttrColorRenderer";
+import {
+  PropColorRenderer,
+  PropColorBadgeRenderer,
+} from "./renderers/PropColorRenderer";
 
 export function createGridOptions(idolList) {
   return {
     el: document.getElementById("grid_list"),
+    pageOptions: {
+      useClient: true,
+      perPage: 24,
+    },
     data: [],
     columns: [
       {
@@ -10,49 +19,40 @@ export function createGridOptions(idolList) {
         name: "turn",
         width: 50,
         editor: "text",
-        renderer: {
-          styles: {
-            textAlign: "center",
-          },
-        },
+        align: "center",
+        // renderer: {
+        //   styles: {
+        //     textAlign: "center",
+        //   },
+        // },
+        rowSpan: true,
       },
       {
         header: "년차",
         name: "game_year",
         width: 50,
-        renderer: {
-          styles: {
-            textAlign: "center",
-          },
-        },
+        align: "center",
+        // renderer: {
+        //   styles: {
+        //     textAlign: "center",
+        //   },
+        // },
         editor: "text",
+        filter: {
+          type: "number",
+          showApplyBtn: true,
+          showClearBtn: true,
+        },
+        rowSpan: true,
       },
       {
         header: "유형",
         name: "event_type",
         width: 50,
         renderer: {
-          styles: {
-            textAlign: "center",
-            fontWeight: 'bold',
-            color: (props) => {
-              console.log(props);
-              switch (props.value) {
-                case 'HACO':
-                  return 'gray';
-                
-                case 'SHUFFLE':
-                  return 'red';
-                
-                case 'TOUR':
-                  return 'green';
-                
-                case 'GRAND':
-                  return 'blue';
-              }
-            }
-          },
+          type: TypeColorRenderer,
         },
+        align: "center",
         formatter: "listItemText",
         editor: {
           type: "select",
@@ -65,35 +65,46 @@ export function createGridOptions(idolList) {
             ],
           },
         },
+        filter: {
+          type: "select",
+          showApplyBtn: true,
+          showClearBtn: true,
+        },
+        rowSpan: true,
       },
-      { header: "이벤트명", name: "event_name", width: 290, editor: "text" },
+      {
+        header: "이벤트명",
+        name: "event_name",
+        width: 290,
+        editor: "text",
+        rowSpan: true,
+      },
       {
         header: "이벤트캐",
         name: "event_char",
-        width: 80,
-        renderer: {
-          styles: {
-            textAlign: "center",
-            color: "black",
-          },
-        },
+        width: 100,
+        align: "center",
         formatter: "listItemText",
         editor: {
           type: "select",
           options: {
             listItems: idolList,
-          }
+          },
+        },
+        filter: {
+          type: "select",
+          showApplyBtn: true,
+          showClearBtn: true,
         },
       },
       {
-        header: "속성",
+        header: "색",
         name: "event_card_prop",
         width: 50,
         renderer: {
-          styles: {
-            textAlign: "center",
-          },
+          type: PropColorBadgeRenderer,
         },
+        align: "center",
         formatter: "listItemText",
         editor: {
           type: "select",
@@ -106,16 +117,20 @@ export function createGridOptions(idolList) {
             ],
           },
         },
+        filter: {
+          type: "select",
+          showApplyBtn: true,
+          showClearBtn: true,
+        },
       },
       {
-        header: "속성2",
+        header: "속성",
         name: "event_card_attr",
         width: 50,
         renderer: {
-          styles: {
-            textAlign: "center",
-          },
+          type: AttrColorRenderer,
         },
+        align: "center",
         formatter: "listItemText",
         editor: {
           type: "select",
@@ -126,6 +141,11 @@ export function createGridOptions(idolList) {
               { text: "퍼포", value: "PERFORMANCE" },
             ],
           },
+        },
+        filter: {
+          type: "select",
+          showApplyBtn: true,
+          showClearBtn: true,
         },
       },
       {
@@ -133,27 +153,34 @@ export function createGridOptions(idolList) {
         name: "tscout_name",
         width: 150,
         editor: "text",
+        rowSpan: true,
       },
       {
         header: "테마캐",
         name: "tscout_char",
-        width: 70,
-        renderer: {
-          styles: {
-            textAlign: "center",
+        width: 100,
+        align: "center",
+        formatter: "listItemText",
+        editor: {
+          type: "select",
+          options: {
+            listItems: idolList,
           },
         },
-        editor: "text",
+        filter: {
+          type: "select",
+          showApplyBtn: true,
+          showClearBtn: true,
+        },
       },
       {
-        header: "속성",
+        header: "색",
         name: "tscout_card_prop",
         width: 50,
         renderer: {
-          styles: {
-            textAlign: "center",
-          },
+          type: PropColorBadgeRenderer,
         },
+        align: "center",
         formatter: "listItemText",
         editor: {
           type: "select",
@@ -166,16 +193,20 @@ export function createGridOptions(idolList) {
             ],
           },
         },
+        filter: {
+          type: "select",
+          showApplyBtn: true,
+          showClearBtn: true,
+        },
       },
       {
-        header: "속성2",
+        header: "속성",
         name: "tscout_card_attr",
         width: 50,
         renderer: {
-          styles: {
-            textAlign: "center",
-          },
+          type: AttrColorRenderer,
         },
+        align: "center",
         formatter: "listItemText",
         editor: {
           type: "select",
@@ -186,6 +217,11 @@ export function createGridOptions(idolList) {
               { text: "퍼포", value: "PERFORMANCE" },
             ],
           },
+        },
+        filter: {
+          type: "select",
+          showApplyBtn: true,
+          showClearBtn: true,
         },
       },
       {
@@ -193,27 +229,34 @@ export function createGridOptions(idolList) {
         name: "fscout_name",
         width: 150,
         editor: "text",
+        rowSpan: true,
       },
       {
         header: "피쳐캐",
         name: "fscout_char",
-        width: 70,
-        renderer: {
-          styles: {
-            textAlign: "center",
+        width: 100,
+        align: "center",
+        formatter: "listItemText",
+        editor: {
+          type: "select",
+          options: {
+            listItems: idolList,
           },
         },
-        editor: "text",
+        filter: {
+          type: "select",
+          showApplyBtn: true,
+          showClearBtn: true,
+        },
       },
       {
-        header: "속성",
+        header: "색",
         name: "fscout_card_prop",
         width: 50,
         renderer: {
-          styles: {
-            textAlign: 'center',
-          },
+          type: PropColorBadgeRenderer,
         },
+        align: "center",
         formatter: "listItemText",
         editor: {
           type: "select",
@@ -226,16 +269,20 @@ export function createGridOptions(idolList) {
             ],
           },
         },
+        filter: {
+          type: "select",
+          showApplyBtn: true,
+          showClearBtn: true,
+        },
       },
       {
-        header: "속성2",
+        header: "속성",
         name: "fscout_card_attr",
         width: 50,
         renderer: {
-          styles: {
-            textAlign: 'center',
-          },
+          type: AttrColorRenderer,
         },
+        align: "center",
         formatter: "listItemText",
         editor: {
           type: "select",
@@ -247,17 +294,38 @@ export function createGridOptions(idolList) {
             ],
           },
         },
+        filter: {
+          type: "select",
+          showApplyBtn: true,
+          showClearBtn: true,
+        },
       },
-      { header: "중뮤가챠", name: "ch_scout_char", width: 70, editor: "text" },
       {
-        header: "속성",
+        header: "중뮤가챠",
+        name: "ch_scout_char",
+        width: 100,
+        align: "center",
+        formatter: "listItemText",
+        editor: {
+          type: "select",
+          options: {
+            listItems: idolList,
+          },
+        },
+        filter: {
+          type: "select",
+          showApplyBtn: true,
+          showClearBtn: true,
+        },
+      },
+      {
+        header: "색",
         name: "ch_scout_card_prop",
         width: 50,
         renderer: {
-          styles: {
-            textAlign: 'center',
-          },
+          type: PropColorBadgeRenderer,
         },
+        align: "center",
         formatter: "listItemText",
         editor: {
           type: "select",
@@ -270,16 +338,20 @@ export function createGridOptions(idolList) {
             ],
           },
         },
+        filter: {
+          type: "select",
+          showApplyBtn: true,
+          showClearBtn: true,
+        },
       },
       {
-        header: "속성2",
+        header: "속성",
         name: "ch_scout_card_attr",
         width: 50,
         renderer: {
-          styles: {
-            textAlign: 'center',
-          },
+          type: AttrColorRenderer,
         },
+        align: "center",
         formatter: "listItemText",
         editor: {
           type: "select",
@@ -291,17 +363,38 @@ export function createGridOptions(idolList) {
             ],
           },
         },
+        filter: {
+          type: "select",
+          showApplyBtn: true,
+          showClearBtn: true,
+        },
       },
-      { header: "중뮤이벤", name: "ch_event_char", width: 70, editor: "text" },
       {
-        header: "속성",
+        header: "중뮤이벤",
+        name: "ch_event_char",
+        width: 100,
+        align: "center",
+        formatter: "listItemText",
+        editor: {
+          type: "select",
+          options: {
+            listItems: idolList,
+          },
+        },
+        filter: {
+          type: "select",
+          showApplyBtn: true,
+          showClearBtn: true,
+        },
+      },
+      {
+        header: "색",
         name: "ch_event_card_prop",
         width: 50,
         renderer: {
-          styles: {
-            textAlign: 'center',
-          },
+          type: PropColorBadgeRenderer,
         },
+        align: "center",
         formatter: "listItemText",
         editor: {
           type: "select",
@@ -314,16 +407,20 @@ export function createGridOptions(idolList) {
             ],
           },
         },
+        filter: {
+          type: "select",
+          showApplyBtn: true,
+          showClearBtn: true,
+        },
       },
       {
-        header: "속성2",
+        header: "속성",
         name: "ch_event_card_attr",
         width: 50,
         renderer: {
-          styles: {
-            textAlign: 'center',
-          },
+          type: AttrColorRenderer,
         },
+        align: "center",
         formatter: "listItemText",
         editor: {
           type: "select",
@@ -334,6 +431,11 @@ export function createGridOptions(idolList) {
               { text: "퍼포", value: "PERFORMANCE" },
             ],
           },
+        },
+        filter: {
+          type: "select",
+          showApplyBtn: true,
+          showClearBtn: true,
         },
       },
     ],
@@ -341,7 +443,10 @@ export function createGridOptions(idolList) {
       frozenCount: 2, // 3개의 컬럼을 고정하고
       frozenBorderWidth: 2, // 고정 컬럼의 경계선 너비를 2px로 한다.
     },
-    rowHeaders: ["rowNum"],
-    editingEvent: 'none', // 기본 더블클릭 막기
+    rowHeaders: ["checkbox", "rowNum" ],
+    editingEvent: "none", // 기본 더블클릭 막기
+    // showDummyRows: true,
+    // selectionUnit: "row",
+    moveDirectionOnEnter: "down",
   };
 }

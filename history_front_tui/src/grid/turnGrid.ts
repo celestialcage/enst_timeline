@@ -1,4 +1,4 @@
-import { fetchTurnData } from "../utils/api";
+import { fetchTurnData, sendCreateTurnsRequest, sendUpdateTurnsRequest, sendDeleteTurnsRequest } from "../utils/api";
 
 let grid;
 
@@ -17,7 +17,7 @@ export function initTurnGrid(gridOptions) {
     },
   });
 
-  tui.Grid.applyTheme("striped");
+  tui.Grid.applyTheme("default");
   grid = new tui.Grid(gridOptions);
 
   // grid.on('focusChange', ({ rowKey, columnName }) => {
@@ -66,12 +66,76 @@ addBtn.addEventListener("click", () => {
 
   grid.appendRow(rowInitData, rowInitOptions);
 
-  // 1. 전체 데이터 받아서 마지막 row 찾기
-  const lastIndex = grid.getData().length - 1;
-  const lastRow = grid.getRowAt(lastIndex); // ✅ 여기서 rowKey도 포함된 row 객체 가져옴
 
-  // 2. rowKey 추출
-  const rowKey = lastRow?.rowKey;
+  // ----------- 오픈하니까 rowspan 때문에 여러 행 추가하면 기본값으로 cell merge 돼서ㅠ 안함
+  // // 1. 전체 데이터 받아서 마지막 row 찾기
+  // const lastIndex = grid.getData().length - 1;
+  // const lastRow = grid.getRowAt(lastIndex); // ✅ 여기서 rowKey도 포함된 row 객체 가져옴
+
+  // // 2. rowKey 추출
+  // const rowKey = lastRow?.rowKey;
   
-  grid.startEditing(rowKey, 'turn');
+  // grid.startEditing(rowKey, 'turn');
+});
+
+const saveBtn: HTMLButtonElement | null = document.querySelector("#save-btn");
+saveBtn?.addEventListener("click", () => {
+  console.log(grid.getModifiedRows());
+
+});
+
+const searchBtn: HTMLButtonElement | null = document.querySelector("#search-btn");
+searchBtn?.addEventListener("click", () => {
+  console.log(grid.getModifiedRows());
+  const rowsToInsert = grid.getModifiedRows().createdRows;
+  const rowsToUpdate = grid.getModifiedRows().updatedRows;
+
+  alert("저장하시겠습니까?")
+
+  const confirmMsg = `신규 행 
+  ${rowsToInsert}
+  수정 행
+  ${rowsToUpdate}
+  `
+  if (confirm(confirmMsg)) {
+    console.log(grid.getModifiedRows());
+  };
+
+  if (rowsToInsert.length > 0) {
+    console.log(rowsToInsert);
+    // sendCreateTurnsRequest(rowsToInsert);
+  }
+
+  if (rowsToUpdate.length > 0) {
+    console.log(rowsToUpdate);
+    // sendUpdateTurnsRequest(rowsToUpdate);
+  }
+
+});
+
+const deleteBtn: HTMLButtonElement | null = document.querySelector("#delete-btn");
+deleteBtn?.addEventListener("click", () => {
+  alert("삭제하면... 정말로 삭제됩니다.");
+
+  grid.removeCheckedRows();
+
+  const rowsToDelete = grid.getModifiedRows().deletedRows;
+
+  const confirmMsg = `사라지는 행은 
+  ${rowsToDelete}`
+  if (confirm(confirmMsg)) {
+    console.log(rowsToDelete);
+    // sendDeleteTurnsRequest(rowsToDelete);
+  };
+
+});
+
+const perPageSelect: HTMLSelectElement | null = document.querySelector("#itemsPerPage");
+perPageSelect?.addEventListener("change", (e) => {
+  const pagination = grid.getPagination();
+  const currentPage = pagination.getCurrentPage();
+  console.log(currentPage);
+  
+  grid.setPerPage(Number(e.target.value));
+
 });

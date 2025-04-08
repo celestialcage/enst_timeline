@@ -29,3 +29,21 @@ export async function fetchIdolList() {
 
   return data;
 }
+
+export async function sendCreateTurnsRequest(list: Array<Object>) {
+  const searchUrl = '';
+  const data = await fetch(searchUrl, { method: 'POST' });
+
+}
+
+export async function sendUpdateTurnsRequest(list: Array<Object>) {
+  const searchUrl = '';
+  const data = await fetch(searchUrl, { method: 'PATCH' });
+
+}
+
+export async function sendDeleteTurnsRequest(list: Array<Object>) {
+  const searchUrl = '';
+  const data = await fetch(searchUrl, { method: 'DELETE' });
+
+}

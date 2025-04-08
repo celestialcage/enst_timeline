@@ -1,0 +1,18 @@
+/* Noto Sans 폰트 적용 */
+
+.tui-grid-header-cell {
+  font-family: 'Noto Sans', sans-serif;  /* Noto Sans 폰트 설정 */
+  font-size: 16px !important;  /* 헤더 폰트 크기 설정 */
+  font-weight: 700 !important; /* 헤더 폰트 두께 설정 */
+}
+
+.tui-grid-cell {
+  font-family: 'Noto Sans', sans-serif;  /* Noto Sans 폰트 설정 */
+  font-size: 14px;  /* 폰트 크기 설정 */
+  font-weight: 400; /* 기본 폰트 두께 설정 */
+  /* font-style: italic;  이탤릭체 적용 */
+}
+
+.cell-background-gray {
+  background-color: lightgray;
+}
