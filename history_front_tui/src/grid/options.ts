@@ -172,6 +172,12 @@ export function createGridOptions(idolList) {
           showApplyBtn: true,
           showClearBtn: true,
         },
+        rowSpan: true,
+        relations: [
+          {
+            targetNames: ['tscout_card_prop', 'tscout_card_attr'],
+          }
+        ]
       },
       {
         header: "색",
@@ -198,6 +204,7 @@ export function createGridOptions(idolList) {
           showApplyBtn: true,
           showClearBtn: true,
         },
+        rowSpan: true,
       },
       {
         header: "속성",
@@ -223,6 +230,7 @@ export function createGridOptions(idolList) {
           showApplyBtn: true,
           showClearBtn: true,
         },
+        rowSpan: true,
       },
       {
         header: "피쳐(크로스)명",
@@ -248,6 +256,12 @@ export function createGridOptions(idolList) {
           showApplyBtn: true,
           showClearBtn: true,
         },
+        rowSpan: true,
+        relations: [
+          {
+            targetNames: ['fscout_card_prop', 'fscout_card_attr'],
+          }
+        ]
       },
       {
         header: "색",
@@ -274,6 +288,7 @@ export function createGridOptions(idolList) {
           showApplyBtn: true,
           showClearBtn: true,
         },
+        rowSpan: true,
       },
       {
         header: "속성",
@@ -299,6 +314,7 @@ export function createGridOptions(idolList) {
           showApplyBtn: true,
           showClearBtn: true,
         },
+        rowSpan: true,
       },
       {
         header: "중뮤가챠",
@@ -317,6 +333,12 @@ export function createGridOptions(idolList) {
           showApplyBtn: true,
           showClearBtn: true,
         },
+        rowSpan: true,
+        relations: [
+          {
+            targetNames: ['ch_scout_card_prop', 'ch_scout_card_attr'],
+          }
+        ]
       },
       {
         header: "색",
@@ -343,6 +365,7 @@ export function createGridOptions(idolList) {
           showApplyBtn: true,
           showClearBtn: true,
         },
+        rowSpan: true,
       },
       {
         header: "속성",
@@ -368,6 +391,7 @@ export function createGridOptions(idolList) {
           showApplyBtn: true,
           showClearBtn: true,
         },
+        rowSpan: true,
       },
       {
         header: "중뮤이벤",
@@ -386,6 +410,12 @@ export function createGridOptions(idolList) {
           showApplyBtn: true,
           showClearBtn: true,
         },
+        rowSpan: true,
+        relations: [
+          {
+            targetNames: ['ch_event_card_prop', 'ch_event_card_attr'],
+          }
+        ]
       },
       {
         header: "색",
@@ -412,6 +442,7 @@ export function createGridOptions(idolList) {
           showApplyBtn: true,
           showClearBtn: true,
         },
+        rowSpan: true,
       },
       {
         header: "속성",
@@ -437,6 +468,7 @@ export function createGridOptions(idolList) {
           showApplyBtn: true,
           showClearBtn: true,
         },
+        rowSpan: true,
       },
     ],
     columnOptions: {

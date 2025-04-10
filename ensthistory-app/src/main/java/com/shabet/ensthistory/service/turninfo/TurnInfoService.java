@@ -6,7 +6,6 @@ import com.shabet.ensthistory.domain.scoutlineup.ScoutLineup;
 import com.shabet.ensthistory.domain.scoutlineup.ScoutLineupRepo;
 import com.shabet.ensthistory.domain.turn.TurnInfo;
 import com.shabet.ensthistory.domain.turn.TurnInfoRepository;
-import com.shabet.ensthistory.domain.turn.dto.TurnGridRequestDto;
 import com.shabet.ensthistory.domain.turn.dto.TurnGridResponseDto;
 import com.shabet.ensthistory.domain.turn.dto.TurnResponseRowDto;
 import org.springframework.stereotype.Service;
@@ -94,9 +93,9 @@ public class TurnInfoService {
 
             if (i < fScoutLineups.size()) {
                 ScoutLineup f = fScoutLineups.get(i);
-                row.setTScoutChar(f.getCharacter().getName());
-                row.setTScoutCardAttr(f.getCardAttr().name());
-                row.setTScoutCardProp(f.getCardProp().name());
+                row.setFScoutChar(f.getCharacter().getName());
+                row.setFScoutCardAttr(f.getCardAttr().name());
+                row.setFScoutCardProp(f.getCardProp().name());
             }
 
             result.add(row);
