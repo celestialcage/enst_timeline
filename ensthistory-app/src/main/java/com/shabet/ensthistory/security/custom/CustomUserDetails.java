@@ -1,5 +1,6 @@
 package com.shabet.ensthistory.security.custom;
 
+import com.shabet.ensthistory.member.dto.MemberDto;
 import com.shabet.ensthistory.member.entity.Member;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
@@ -12,25 +13,25 @@ import java.util.List;
 @Getter
 public class CustomUserDetails implements UserDetails {
 
-    private final Member member;
+    private final MemberDto memberDto;
 
-    public CustomUserDetails(Member member) {
-        this.member = member;
+    public CustomUserDetails(MemberDto memberDto) {
+        this.memberDto = memberDto;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority("ROLE_" + member.getUserRole().name()));
+        return List.of(new SimpleGrantedAuthority("ROLE_" + memberDto.getUserRole().name()));
     }
 
     @Override
     public String getPassword() {
-        return member.getPassword();
+        return memberDto.getUserPw();
     }
 
     @Override
     public String getUsername() {
-        return member.getUserName(); // 로그인에 사용할 아이디
+        return memberDto.getUserName(); // 로그인에 사용할 아이디
     }
 
     @Override
@@ -50,6 +51,6 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return member.getIsEnabled();  // 바로 연동됨!
+        return memberDto.getEnabled() == 0 ? false : true;  // 바로 연동됨!
     }
 }

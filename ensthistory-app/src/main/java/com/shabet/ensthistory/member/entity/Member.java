@@ -7,6 +7,8 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "member", uniqueConstraints = {
@@ -18,12 +20,13 @@ public class Member {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long userNo;
 
     private String name;
 
     private String email;
 
+    // 로그인 아이디
     @Column(nullable = false, length = 50, unique = true)
     private String userName;
 
@@ -44,7 +47,9 @@ public class Member {
     @Column(length = 512)
     private String refreshToken;
 
-    @Column(nullable = false, length = 20)
-    @Enumerated(EnumType.STRING)
-    private UserRole userRole;
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    private List<UserAuth> roles = new ArrayList<>();
+//    @Column(nullable = false, length = 20)
+//    @Enumerated(EnumType.STRING)
+//    private UserRole userRole;
 }
