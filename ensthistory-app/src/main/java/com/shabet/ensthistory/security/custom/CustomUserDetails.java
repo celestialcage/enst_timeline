@@ -1,27 +1,38 @@
 package com.shabet.ensthistory.security.custom;
 
 import com.shabet.ensthistory.member.dto.MemberDto;
-import com.shabet.ensthistory.member.entity.Member;
-import lombok.Getter;
+import com.shabet.ensthistory.member.dto.UserAuthDto;
+import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
-@Getter
+@Data
 public class CustomUserDetails implements UserDetails {
 
-    private final MemberDto memberDto;
+    private MemberDto memberDto;
 
     public CustomUserDetails(MemberDto memberDto) {
         this.memberDto = memberDto;
     }
 
+    /**
+     * 권한 응답해주는 getter 메서드
+     * @return
+     */
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority("ROLE_" + memberDto.getUserRole().name()));
+        List<UserAuthDto> authList = memberDto.getAuthList();
+
+        Collection<SimpleGrantedAuthority> roleList = authList.stream()
+                .map((auth) -> new SimpleGrantedAuthority(auth.getAuth()))
+                .collect(Collectors.toList());
+
+        return roleList;
     }
 
     @Override

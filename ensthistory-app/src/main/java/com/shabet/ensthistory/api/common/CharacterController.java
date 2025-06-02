@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/character")
+@RequestMapping("/api/common/character")
 public class CharacterController {
 
     private final CharacterService characterService;

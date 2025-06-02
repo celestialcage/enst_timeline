@@ -42,11 +42,11 @@ public class JwtTokenProvider {
         this.memberRepository = memberRepository;
     }
 
-    public String generateAccessToken(int userNo, String userId, List<String> roles) {
+    public String generateAccessToken(long userNo, String userId, List<String> roles) {
         return generateToken(userNo, userId, roles, accessTokenExpirationTime);
     }
 
-    public String generateRefreshToken(int userNo, String userId, List<String> roles) {
+    public String generateRefreshToken(long userNo, String userId, List<String> roles) {
         return generateToken(userNo, userId, roles, refreshTokenExpirationTime);
     }
 
@@ -58,7 +58,7 @@ public class JwtTokenProvider {
      * @param expireTime
      * @return
      */
-    public String generateToken(int userNo, String userId, List<String> roles, long expireTime) {
+    public String generateToken(long userNo, String userId, List<String> roles, long expireTime) {
         byte[] signingKey = getSigningKey();
 
         String jwt = Jwts.builder()
@@ -151,7 +151,7 @@ public class JwtTokenProvider {
                             );
                         })
                         .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
-                if (memberInfo == null) {
+                if (memberInfo != null) {
                     memberDto.setName(memberInfo.getName());
                     memberDto.setEmail(memberInfo.getEmail());
                 }
