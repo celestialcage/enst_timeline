@@ -10,6 +10,7 @@ import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -77,6 +78,11 @@ public class JwtTokenProvider {
         return jwt;
     }
 
+    /**
+     * 2. 토큰 해석 함수
+     * @param authHeader
+     * @return
+     */
     public UsernamePasswordAuthenticationToken getAuthentication(String authHeader) {
         if (authHeader == null || authHeader.length() == 0)
             return null;
@@ -150,7 +156,7 @@ public class JwtTokenProvider {
                                     roleList
                             );
                         })
-                        .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
+                        .orElseThrow(() -> new BadCredentialsException("사용자를 찾을 수 없습니다.")); // RuntimeException에서 바꿈
                 if (memberInfo != null) {
                     memberDto.setName(memberInfo.getName());
                     memberDto.setEmail(memberInfo.getEmail());
@@ -177,7 +183,7 @@ public class JwtTokenProvider {
     }
 
     /**
-     *
+     * 3. 토큰 유효성 검사 함수(만료여부)
      * @param jwt
      * @return
      */
@@ -215,5 +221,86 @@ public class JwtTokenProvider {
      */
     private byte[] getSigningKey() {
         return jwtProps.getSecretKey().getBytes();
+    }
+
+    /**
+     * 토큰에서 userNo 추출하는 함수
+     * @param token
+     * @return
+     */
+    public Long extractUserNoFromToken(String token) {
+        byte[] signingKey = getSigningKey();
+
+        try {
+            Jws<Claims> parsedToken = Jwts.parser()
+                    .verifyWith(Keys.hmacShaKeyFor(signingKey))
+                    .build()
+                    .parseSignedClaims(token);
+
+            String userNo = parsedToken.getPayload().get("uno", String.class);
+            return Long.parseLong(userNo);
+        } catch (Exception e) {
+            log.warn("Failed to extract userNo from token");
+            return null;
+        }
+    }
+
+    /**
+     * 토큰에서 userId 추출하는 함수
+     * @param token
+     * @return
+     */
+    public String extractUserIdFromToken(String token) {
+        byte[] signingKey = getSigningKey();
+
+        try {
+            Jws<Claims> parsedToken = Jwts.parser()
+                    .verifyWith(Keys.hmacShaKeyFor(signingKey))
+                    .build()
+                    .parseSignedClaims(token);
+
+            String userId = parsedToken.getPayload().get("uid", String.class);
+            return userId;
+        } catch (Exception e) {
+            log.warn("Failed to extract userId from token");
+            return null;
+        }
+    }
+
+    /**
+     * 토큰에서 userId 추출하는 함수
+     * @param token
+     * @return
+     */
+    public List<String> extractRolesFromToken(String token) {
+        byte[] signingKey = getSigningKey();
+
+        try {
+            Jws<Claims> parsedToken = Jwts.parser()
+                    .verifyWith(Keys.hmacShaKeyFor(signingKey))
+                    .build()
+                    .parseSignedClaims(token);
+
+            Claims claims = parsedToken.getPayload();
+
+            Object rolesObject = claims.get("rol");
+
+            if (rolesObject instanceof List<?>) {
+                // 안전하게 String 리스트로 반환
+                return ((List<?>) rolesObject).stream()
+                        .map(Object::toString)
+                        .collect(Collectors.toList());
+            }
+
+            // roles가 단일 문자열일 경우를 대비
+            if (rolesObject instanceof String) {
+                return List.of((String) rolesObject);
+            }
+
+        } catch (Exception e) {
+            log.warn("extractRoles failed : {}", e.getMessage());
+        }
+
+        return List.of(); // 기본 빈 리스트 반환
     }
 }
